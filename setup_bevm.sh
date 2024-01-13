@@ -76,3 +76,7 @@ start_node
 check_node
 
 echo "部署完成,节点名称:$node_name,并且保存在$NODE_NAME_FILE文件中
+
+# 添加查看日志调用
+view_log
+echo "您可以按Ctrl+C退出日志查看,后续可以使用tail命令实时查看日志"
