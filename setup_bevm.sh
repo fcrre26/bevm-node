@@ -5,11 +5,11 @@ read -p "请选择节点名称方式：
 1. 随机节点名称（回车默认） 
 2. 手工输入节点名称 " OPTION
 
-
 if [ "$OPTION" = "2" ]; then
   read -p "请输入节点名称: " NODE_NAME
 else
-    NODE_NAME="随机节点名字$(date +%s)"
+  NODE_NAME=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+  echo "随机生成的节点名称为: $NODE_NAME"
 fi
 
 # 输出节点名字到文档
@@ -21,16 +21,16 @@ wget https://github.com/btclayer2/BEVM/releases/download/testnet-v0.1.1/bevm-v0.
 # 赋予执行权限
 chmod +x bevm-v0.1.1-ubuntu20.04
 
-# 创建 systemd unit 文件
+# ... ... ... 创建 systemd unit 文件
 cat <<EOF > /etc/systemd/system/bevm.service
 [Unit]
-Description=BEVM Node
+Description=BEVM ... ... ... ... ... ... ... ... ... Node
 After=network.target
 
 [Service]
 User=your_username
 WorkingDirectory=/path/to/your/bevm/directory
-ExecStart=/path/to/your/bevm/directory/bevm-v0.1.1-ubuntu20.04 --chain=testnet --name="$NODE_NAME" --pruning=archive
+ExecStart=/path/to/your/bevm/directory/bevm-v0.1.1-ubuntu20.04 --chain=testnet --name="$NODE_NAME" ... ... ... ... ... ... ... ... ... --pruning=archive
 Restart=always
 StandardOutput=syslog
 StandardError=syslog
