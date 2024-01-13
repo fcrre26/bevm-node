@@ -30,4 +30,6 @@ EOF
 
 # 重新加载supervisord配置
 supervisorctl reread
+
+# 更新supervisord配置
 supervisorctl update
