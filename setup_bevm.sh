@@ -8,7 +8,7 @@ read -p "请选择节点名称方式：
 if [ "$OPTION" = "2" ]; then
   read -p "请输入节点名称: " NODE_NAME
 else
-  NODE_NAME=$(head /dev/urandom | tr -dc A-Za-z0-9 | head ... -c ... ... 10)
+  NODE_NAME=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
   echo "随机生成的节点名称为: $NODE_NAME"
 fi
 
