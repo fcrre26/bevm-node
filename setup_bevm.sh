@@ -75,4 +75,4 @@ download_node
 start_node
 check_node
 
-echo "部署完成,节点名称保存在$NODE_NAME_FILE文件中"
+echo "部署完成,节点名称:$node_name,并且保存在$NODE_NAME_FILE文件中
