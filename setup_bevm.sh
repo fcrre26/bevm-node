@@ -4,7 +4,7 @@
 read -p "请选择节点名称方式：1. 随机节点名称（回车默认） 2. 手工输入节点名称 " OPTION
 
 if [ "$OPTION" = "2" ]; then
-    read -p "请输入节点名称: " NODE_NAME
+  read -p "请输入节点名称: " NODE_NAME
 else
     NODE_NAME="随机节点名字$(date +%s)"
 fi
