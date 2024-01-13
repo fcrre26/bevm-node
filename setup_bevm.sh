@@ -2,14 +2,15 @@
 
 # 定义变量
 NODE_DOWNLOAD_URL="https://github.com/btclayer2/BEVM/releases/download/testnet-v0.1.1/bevm-v0.1.1-ubuntu20.04"
-NODE_PROCESS_NAME="bevm-v0.1.1-ubuntu20.04"
+NODE_PROCESS_NAME="bevm-v0.1.1-ubuntu20.04"   
 NODE_NAME_FILE="node_name.txt"
+NODE_LOG_FILE="node.log"
 
 # 获取节点名称
 function get_node_name() {
 
   read -p "请选择节点名称方式:
-  1. 随机节点名称(回车默认) 
+  1. 随机节点名称(回车默认)
   2. 手工输入节点名称:" option
 
   if [ "$option" = "2" ]; then
@@ -40,14 +41,14 @@ function download_node() {
 
 }
 
-# 配置并启动节点  
+# 配置并启动节点
 function start_node() {
 
   chmod +x /root/$NODE_PROCESS_NAME
 
   echo "开始启动节点..."
 
-  nohup /root/$NODE_PROCESS_NAME --chain=testnet --name="$(cat $NODE_NAME_FILE)" --pruning=archive > node.log 2>&1 &
+  nohup /root/$NODE_PROCESS_NAME --chain=testnet --name="$(cat $NODE_NAME_FILE)" --pruning=archive > $NODE_LOG_FILE 2>&1 &
 
   pid=$!
 
@@ -69,23 +70,31 @@ function check_node() {
 
 }
 
+# 查看日志
+function view_log() {
+  tail -f $NODE_LOG_FILE &
+}
+
 # 主程序
 get_node_name
 download_node
-start_node 
+start_node
 check_node
 
 echo "部署完成,节点名称:$node_name,并且保存在$NODE_NAME_FILE文件中"
 
 # 选择是否查看日志
-function view_log() {
-  tail -f node.log
-}
+read -p "是否需要查看日志?
+1. 查看
+2. 退出
+回车键默认查看:" input
 
-read -p "是否需要查看日志?(回车确认,其他任意键退出)" input
-if [ -z "$(input)" ]; then 
+if [ "$input" == "1" ]; then
   view_log
-  echo "您可以按Ctrl+C退出日志查看,后续可以使用tail命令实时查看日志"
+elif [ "$input" == "2" ]; then
+  exit 0
+else
+  view_log
 fi
 
 echo "部署完成!"
