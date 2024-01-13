@@ -77,6 +77,11 @@ check_node
 
 echo "部署完成,节点名称:$node_name,并且保存在$NODE_NAME_FILE文件中
 
-# 添加查看日志调用
-view_log
-echo "您可以按Ctrl+C退出日志查看,后续可以使用tail命令实时查看日志"
+# 增加选择是否查看日志
+read -p "是否需要查看日志?(回车确认,其他任意键退出)" input 
+if [ -z "$input" ]; then
+  view_log
+  echo "您可以按Ctrl+C退出日志查看,后续可以使用tail命令实时查看日志" 
+fi
+
+echo "部署完成!"
