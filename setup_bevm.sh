@@ -82,8 +82,8 @@ function view_log() {
   tail -f node.log
 }
 
-read -p "是否需要查看日志?(回车确认,其他任意键退出)" "input"
-if [ -z "$input" ]; then
+read -p "是否需要查看日志?(回车确认,其他任意键退出)" input
+if [ -z "$(input)" ]; then 
   view_log
   echo "您可以按Ctrl+C退出日志查看,后续可以使用tail命令实时查看日志"
 fi
