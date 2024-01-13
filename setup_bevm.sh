@@ -18,18 +18,25 @@ wget https://github.com/btclayer2/BEVM/releases/download/testnet-v0.1.1/bevm-v0.
 # 赋予执行权限
 chmod +x bevm-v0.1.1-ubuntu20.04
 
-# 使用supervisord来启动进程
-cat <<EOF > /etc/supervisor/conf.d/bevm.conf
-[program:bevm]
-command=/root/bevm-v0.1.1-ubuntu20.04 --chain=testnet --name="$NODE_NAME" --pruning=archive
-autostart=true
-autorestart=true
-stderr_logfile=/var/log/bevm.err.log
-stdout_logfile=/var/log/bevm.out.log
+# 创建 systemd unit 文件
+cat <<EOF > /etc/systemd/system/bevm.service
+[Unit]
+Description=BEVM Node
+After=network.target
+
+[Service]
+User=your_username
+WorkingDirectory=/path/to/your/bevm/directory
+ExecStart=/path/to/your/bevm/directory/bevm-v0.1.1-ubuntu20.04 --chain=testnet --name="$NODE_NAME" --pruning=archive
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=bevm
+
+[Install]
+WantedBy=multi-user.target
 EOF
 
-# 重新加载supervisord配置
-supervisorctl reread
-
-# 更新supervisord配置
-supervisorctl update
+# 启动服务并设置开机自启动
+systemctl start bevm
+systemctl enable bevm
